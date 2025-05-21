@@ -13,6 +13,8 @@ import HabitListPage from "./pages/HabitListPage";
 import CreateHabitPage from "./pages/CreateHabitPage";
 import HabitCard from "./components/HabitCard";
 import EditHabitPage from "./pages/EditHabitPage";
+import PrivateRoute from "./components/PrivateRoute";
+import PublicOnlyRoute from "./components/PublicOnlyRoute";
 
 function App() {
   return (
@@ -28,17 +30,17 @@ function App() {
 
       <Routes>
         {/* auth routes */}
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/edit" element={<EditProfilePage />} />
+        <Route path="/" element={<PublicOnlyRoute><HomePage /></PublicOnlyRoute>} />
+        <Route path="/login" element={<PublicOnlyRoute><LoginPage /></PublicOnlyRoute>} />
+        <Route path="/register" element={<PublicOnlyRoute><RegisterPage /></PublicOnlyRoute>} />
+        <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
+        <Route path="/edit" element={<PrivateRoute><EditProfilePage /></PrivateRoute>} />
 
         {/* habit routes */}
-        <Route path="/habits" element={<HabitListPage />} />
-        <Route path="/habits/create" element={<CreateHabitPage />} />
-        <Route path="/habits/:id" element={<HabitCard />} />
-        <Route path="/habits/:id/edit" element={<EditHabitPage />} />
+        <Route path="/habits" element={<PrivateRoute><HabitListPage /></PrivateRoute>} />
+        <Route path="/habits/create" element={<PrivateRoute><CreateHabitPage /></PrivateRoute>} />
+        <Route path="/habits/:id" element={<PrivateRoute><HabitCard /></PrivateRoute>} />
+        <Route path="/habits/:id/edit" element={<PrivateRoute><EditHabitPage /></PrivateRoute>} />
       </Routes>
     </BrowserRouter>
   );

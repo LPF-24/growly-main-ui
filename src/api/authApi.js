@@ -32,32 +32,43 @@ export async function register(username, password, email) {
 }
 
 export async function getProfile() {
-    const accessToken = localStorage.getItem("accessToken");
+  const res = await fetch(`${API_BASE}/auth/profile`, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("accessToken"),
+    },
+  });
 
-    const response = await fetch(`${API_BASE}/auth/profile`, {
-        method: "GET",
-        headers: {
-            Authorization: `Bearer ${accessToken}`,
-        },
-        credentials: "include",
-    });
+  if (res.status === 403 || res.status === 401) {
+    localStorage.removeItem("accessToken");
+    throw new Error("Unauthorized");
+  }
 
-    if (!response.ok) {
-        throwApiError("Not authorized", response);
-    } 
-
-    return await response.json();
+  return res.json();
 }
 
 export async function logout() {
-    const response = await fetch(`${API_BASE}/auth/logout`, {
-        method: "POST",
-        credentials: "include",
+  try {
+    const res = await fetch(`${API_BASE}/auth/logout`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+      },
     });
 
-    if (!response.ok) {
-        throwApiError("Logout failed", response);
-    } 
+    // Удаляем токен даже если произошла ошибка
+    localStorage.removeItem("accessToken");
+
+    if (!res.ok) {
+      throwApiError("Logout failed", res);
+    }
+  } catch (e) {
+    // Защита от сбоев запроса — токен всё равно удаляем
+    localStorage.removeItem("accessToken");
+    throw e;
+  }
 }
 
 export async function updateProfile({ username, password, email }) {

@@ -25,7 +25,7 @@ export default function HabitCard() {
 
     const handleDelete = async () => {
         await habitApi.deleteHabit(id);
-        window.location.href = "/";
+        navigate("/habits");
     };
 
     const handleEdit = () => {
