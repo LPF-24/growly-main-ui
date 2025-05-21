@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getAllHabits } from "../services/habitService";
+import habitApi from "../api/habitApi";
 
 const HabitListPage = () => {
     const [habits, setHabits] = useState([]);
@@ -9,7 +9,7 @@ const HabitListPage = () => {
         const fetchHabits = async () => {
             try {
                 const personId = 1;
-                const habitsData = await getAllHabits(personId);
+                const habitsData = await habitApi.getAllHabits(personId);
                 setHabits(habitsData);
             } catch (error) {
                 console.error("Failed to fetch habits:", error);

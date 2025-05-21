@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const habitApi = axios.create({
-  baseURL: "/habits", // используем прокси через vite.config.js
+  baseURL: "http://localhost:8080/habits", // явно указываем gateway
   headers: {
     "Content-Type": "application/json",
   },
