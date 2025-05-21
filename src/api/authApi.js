@@ -14,6 +14,7 @@ export async function login(username, password) {
   
     const result = await response.json();
     localStorage.setItem("accessToken", result.accessToken); 
+    localStorage.setItem("username", result.username);
     return result;
   }  
 
@@ -42,6 +43,7 @@ export async function getProfile() {
 
   if (res.status === 403 || res.status === 401) {
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("username");
     throw new Error("Unauthorized");
   }
 
@@ -60,6 +62,7 @@ export async function logout() {
 
     // Удаляем токен даже если произошла ошибка
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("username");
 
     if (!res.ok) {
       throwApiError("Logout failed", res);
@@ -67,6 +70,7 @@ export async function logout() {
   } catch (e) {
     // Защита от сбоев запроса — токен всё равно удаляем
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("username");
     throw e;
   }
 }

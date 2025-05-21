@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // auth pages
 import LoginPage from "./pages/LoginPage";
@@ -13,21 +13,15 @@ import HabitListPage from "./pages/HabitListPage";
 import CreateHabitPage from "./pages/CreateHabitPage";
 import HabitCard from "./components/HabitCard";
 import EditHabitPage from "./pages/EditHabitPage";
+
 import PrivateRoute from "./components/PrivateRoute";
 import PublicOnlyRoute from "./components/PublicOnlyRoute";
+import Navbar from "./components/Navbar"; 
 
 function App() {
   return (
     <BrowserRouter>
-      <nav>
-        <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/profile">Profile</Link></li>
-          <li><Link to="/habits">Habits</Link></li>
-          <li><Link to="/habits/create">Create habit</Link></li>
-        </ul>
-      </nav>
-
+      <Navbar /> {/* ✅ Здесь теперь наш компонент */}
       <Routes>
         {/* auth routes */}
         <Route path="/" element={<PublicOnlyRoute><HomePage /></PublicOnlyRoute>} />

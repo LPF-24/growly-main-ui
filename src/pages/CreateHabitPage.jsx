@@ -19,7 +19,7 @@ export default function CreateHabitPage() {
                 active,
                 personId
             });
-            navigate("/");
+            navigate("/habits");
         } catch (error) {
             console.error("Ошибка при создании привычки:", error);
         }
