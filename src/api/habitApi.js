@@ -1,19 +1,31 @@
 import axios from "axios";
 
-// Базовая настройка
 const habitApi = axios.create({
-    baseURL: "http://localhost:8080/habits",
-    headers: {
-        "Content-Type": "application/json",
-    },
-    withCredentials: false,
+  baseURL: "/habits", // используем прокси через vite.config.js
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
 });
 
-// Удобные методы для работы
-habitApi.getHabit = (id) => habitApi.get(`/${id}`).then(res => res.data);
-habitApi.getAllHabits = (personId) => habitApi.get(`/?personId=${personId}`).then(res => res.data);
-habitApi.createHabit = (habit) => habitApi.post("/", habit).then(res => res.data);
-habitApi.updateHabit = (id, habit) => habitApi.patch(`/${id}`, habit).then(res => res.data);
-habitApi.deleteHabit = (id) => habitApi.delete(`/${id}`);
+// Получить все привычки конкретного пользователя
+habitApi.getAllHabits = (personId) =>
+  habitApi.get(`/?personId=${personId}`).then((res) => res.data);
+
+// Получить одну привычку по ID
+habitApi.getHabit = (id) =>
+  habitApi.get(`/${id}`).then((res) => res.data);
+
+// Создать привычку
+habitApi.createHabit = (habitData) =>
+  habitApi.post("/", habitData).then((res) => res.data);
+
+// Обновить привычку
+habitApi.updateHabit = (id, habitData) =>
+  habitApi.patch(`/${id}`, habitData).then((res) => res.data);
+
+// Удалить привычку
+habitApi.deleteHabit = (id) =>
+  habitApi.delete(`/${id}`).then((res) => res.data);
 
 export default habitApi;
