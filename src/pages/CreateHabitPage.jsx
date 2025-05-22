@@ -6,18 +6,16 @@ export default function CreateHabitPage() {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [active, setActive] = useState(true);
-    const [personId, setPersonId] = useState(1);
 
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await habitApi.post("/", {
+            await habitApi.createHabit({
                 name,
                 description,
-                active,
-                personId
+                active
             });
             navigate("/habits");
         } catch (error) {

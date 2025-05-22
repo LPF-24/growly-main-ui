@@ -9,23 +9,48 @@ const habitApi = axios.create({
 });
 
 // Получить все привычки конкретного пользователя
-habitApi.getAllHabits = (personId) =>
-  habitApi.get(`/?personId=${personId}`).then((res) => res.data);
+habitApi.getAllHabits = () =>
+  habitApi.get(`/`, {
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("accessToken"),
+    },
+    withCredentials: true,
+  }).then((res) => res.data);
 
-// Получить одну привычку по ID
+// Получить привычку по ID
 habitApi.getHabit = (id) =>
-  habitApi.get(`/${id}`).then((res) => res.data);
+  habitApi.get(`/${id}`, {
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("accessToken"),
+    },
+    withCredentials: true,
+  }).then((res) => res.data);
 
 // Создать привычку
 habitApi.createHabit = (habitData) =>
-  habitApi.post("/", habitData).then((res) => res.data);
+  habitApi.post("/", habitData, {
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("accessToken"),
+    },
+    withCredentials: true,
+  }).then((res) => res.data);
 
 // Обновить привычку
 habitApi.updateHabit = (id, habitData) =>
-  habitApi.patch(`/${id}`, habitData).then((res) => res.data);
+  habitApi.patch(`/${id}`, habitData, {
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("accessToken"),
+    },
+    withCredentials: true,
+  }).then((res) => res.data);
 
 // Удалить привычку
 habitApi.deleteHabit = (id) =>
-  habitApi.delete(`/${id}`).then((res) => res.data);
+  habitApi.delete(`/${id}`, {
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("accessToken"),
+    },
+    withCredentials: true,
+  }).then((res) => res.data);
 
 export default habitApi;

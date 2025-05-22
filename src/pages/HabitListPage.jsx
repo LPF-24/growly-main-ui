@@ -8,8 +8,7 @@ const HabitListPage = () => {
     useEffect(() => {
         const fetchHabits = async () => {
             try {
-                const personId = 1;
-                const habitsData = await habitApi.getAllHabits(personId);
+                const habitsData = await habitApi.getAllHabits();
                 setHabits(habitsData);
             } catch (error) {
                 console.error("Failed to fetch habits:", error);
