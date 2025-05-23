@@ -1,10 +1,13 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import habitApi from "../api/habitApi";
+import { useAuth } from "../context/AuthContext";
 
 export default function EditHabitPage() {
     const { id } = useParams();
     const navigate = useNavigate();
+    const { token, loading } = useAuth();
+
     const [habit, setHabit] = useState({
         name: "",
         description: "",
@@ -12,20 +15,23 @@ export default function EditHabitPage() {
     });
 
     useEffect(() => {
+        if (loading || !token) return;
+
         async function fetchHabit() {
             try {
-                const data = await habitApi.getHabit(id);
+                const data = await habitApi.getHabit(id, token);
                 setHabit({
                     name: data.name,
                     description: data.description,
-                    active: data.active
+                    active: data.active,
                 });
             } catch (error) {
                 console.error("Error loading habit:", error);
             }
         }
+        
         fetchHabit();
-    }, [id]);
+    }, [id, token, loading]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -35,7 +41,7 @@ export default function EditHabitPage() {
                 name: habit.name,
                 description: habit.description,
                 active: habit.active
-            });
+            }, token);
             navigate(`/habits/${id}`);
         } catch (error) {
             console.error("Error updating habit:", error);
@@ -58,7 +64,6 @@ export default function EditHabitPage() {
                     value={habit.description}
                     onChange={(e) => setHabit({ ...habit, description: e.target.value })}
                     placeholder="Description"
-                    required
                 />
                 <br />
                 <label>

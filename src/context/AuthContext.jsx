@@ -17,6 +17,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem("accessToken");
     setUser(null);
+    setToken(null);
   } 
 
   // При старте приложения — восстановить user из токена
