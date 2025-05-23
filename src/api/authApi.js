@@ -1,3 +1,4 @@
+import { jwtDecode } from "jwt-decode";
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 export async function login(username, password) {
@@ -15,7 +16,18 @@ export async function login(username, password) {
     const result = await response.json();
     localStorage.setItem("accessToken", result.accessToken); 
     localStorage.setItem("username", result.username);
-    return result;
+    
+    const decoded = jwtDecode(result.accessToken);
+    // Возвращаем user-объект для AuthContext
+    return {
+      user: {
+        id: decoded.id,
+        username: decoded.username,
+        email: result.email, 
+        role: decoded.role,
+      },
+      accessToken: result.accessToken,
+    };
   }  
 
 export async function register(username, password, email) {

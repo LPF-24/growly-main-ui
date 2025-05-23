@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 // auth pages
 import LoginPage from "./pages/LoginPage";
@@ -20,8 +20,8 @@ import Navbar from "./components/Navbar";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Navbar /> {/* ✅ Здесь теперь наш компонент */}
+    <>
+      <Navbar />
       <Routes>
         {/* auth routes */}
         <Route path="/" element={<PublicOnlyRoute><HomePage /></PublicOnlyRoute>} />
@@ -36,7 +36,7 @@ function App() {
         <Route path="/habits/:id" element={<PrivateRoute><HabitCard /></PrivateRoute>} />
         <Route path="/habits/:id/edit" element={<PrivateRoute><EditHabitPage /></PrivateRoute>} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 }
 

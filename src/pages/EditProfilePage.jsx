@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { getProfile, handleApiError } from "../api/authApi";
+import { getProfile, handleApiError, updateProfile, logout as serverLogout } from "../api/authApi";
 import { useNavigate } from "react-router-dom";
-import { updateProfile } from "../api/authApi";
+import { useAuth } from "../context/AuthContext";
 
 function EditProfilePage() {
     const [username, setUsername] = useState("");
@@ -9,24 +9,29 @@ function EditProfilePage() {
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
+    const { logout } = useAuth(); // контекстный logout
 
     useEffect(() => {
         getProfile()
-        .then((user) => {
-            setUsername(user.username);
-            setEmail(user.email);
-        })
-        .catch(() => {
-            setError("Unauthorized");
-            navigate("/login");
-        });
+            .then((user) => {
+                setUsername(user.username);
+                setEmail(user.email);
+            })
+            .catch(() => {
+                setError("Unauthorized");
+                navigate("/login");
+            });
     }, []);
 
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
             await updateProfile({ username, password, email });
-            navigate("/profile");
+
+            await serverLogout();         // удалить refreshToken с сервера
+            logout();                     // очистить контекст
+            localStorage.removeItem("accessToken"); // на всякий случай
+            navigate("/login");
         } catch (err) {
             await handleApiError(err, "Update failed", setError);
         }
@@ -35,16 +40,36 @@ function EditProfilePage() {
     return (
         <form onSubmit={handleUpdate}>
             <h2>Edit Profile</h2>
-            <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
-            <br/>
-            <input value={password} onChange={(e) => setPassword(e.target.value)} placeholder="New Password (optional)" type="password" />
-            <br/>
-            <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" type="email" />
-            <br/>
+            <input
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Username"
+                required
+            />
+            <br />
+            <input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="New Password (optional)"
+                type="password"
+            />
+            <br />
+            <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+                type="email"
+                required
+            />
+            <br />
             <button type="submit">Save changes</button>
-            {error && <div style={{ color: "red" }}> {error}</div>}
-            <br/>
-            <button onClick={() => navigate("/profile")} style={{ margin: "10px" }}>
+            {error && <div style={{ color: "red" }}>{error}</div>}
+            <br />
+            <button
+                type="button"
+                onClick={() => navigate("/profile")}
+                style={{ margin: "10px" }}
+            >
                 Return to your personal account
             </button>
         </form>
