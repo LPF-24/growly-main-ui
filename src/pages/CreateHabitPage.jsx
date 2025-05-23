@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import habitApi from "../api/habitApi";
+import { useAuth } from "../context/AuthContext";
 
 export default function CreateHabitPage() {
     const [name, setName] = useState("");
@@ -8,6 +9,7 @@ export default function CreateHabitPage() {
     const [active, setActive] = useState(true);
 
     const navigate = useNavigate();
+    const { token } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -15,8 +17,10 @@ export default function CreateHabitPage() {
             await habitApi.createHabit({
                 name,
                 description,
-                active
-            });
+                active,
+            },
+            token,
+           );
             navigate("/habits");
         } catch (error) {
             console.error("Ошибка при создании привычки:", error);
@@ -39,7 +43,6 @@ export default function CreateHabitPage() {
                     placeholder="Habit description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    required
                 />
                 <br />
                 <label>
