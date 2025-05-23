@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import habitApi from "../api/habitApi";
+import { useAuth } from "../context/AuthContext";
 
 const HabitListPage = () => {
     const [habits, setHabits] = useState([]);
+    const { user, token, loading } = useAuth();
 
     useEffect(() => {
         const fetchHabits = async () => {
             try {
-                const habitsData = await habitApi.getAllHabits();
+                const habitsData = await habitApi.getAllHabits(token);
                 setHabits(habitsData);
             } catch (error) {
                 console.error("Failed to fetch habits:", error);

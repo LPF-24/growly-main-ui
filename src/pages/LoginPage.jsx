@@ -18,7 +18,7 @@ function LoginPage() {
             const response = await loginApi(username, password);
 
             const userData = response.user || { username };
-            login(userData);
+            login(userData, response.accessToken);
             
             navigate("/profile");
         } catch (err) {

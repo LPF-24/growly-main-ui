@@ -6,9 +6,14 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const login = (userData) => setUser(userData);
+  const login = (userData, accessToken) => {
+    setUser(userData);
+    setToken(accessToken);
+  };
+
   const logout = () => {
     localStorage.removeItem("accessToken");
     setUser(null);
@@ -28,11 +33,13 @@ export const AuthProvider = ({ children }) => {
                       role: decoded.role,
                       email: profileData.email || "",
                   });
+                  setToken(token);
                   setLoading(false);
                 })
                 .catch(() => {
                   console.warn("Failed to get profile after token decode");
                   setUser(null);
+                  setToken(null);
                   setLoading(false);
                 });
         } catch (e) {
@@ -49,7 +56,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, token, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
