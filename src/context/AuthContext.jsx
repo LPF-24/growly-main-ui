@@ -6,9 +6,13 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const login = (userData) => setUser(userData);
-  const logout = () => setUser(null);
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    setUser(null);
+  } 
 
   // При старте приложения — восстановить user из токена
   useEffect(() => {
@@ -18,28 +22,34 @@ export const AuthProvider = ({ children }) => {
             const decoded = jwtDecode(token);
             getProfile()
                 .then((profileData) => {
-                setUser({
-                    id: decoded.id,
-                    username: decoded.username,
-                    role: decoded.role,
-                    email: profileData.email || "",
-                });
+                  setUser({
+                      id: decoded.id,
+                      username: decoded.username,
+                      role: decoded.role,
+                      email: profileData.email || "",
+                  });
+                  setLoading(false);
                 })
                 .catch(() => {
-                console.warn("Failed to get profile after token decode");
-                setUser(null);
+                  console.warn("Failed to get profile after token decode");
+                  setUser(null);
+                  setLoading(false);
                 });
         } catch (e) {
             console.error("Invalid token", e);
             localStorage.removeItem("accessToken");
             localStorage.removeItem("username");
+            logout();
             setUser(null);
+            setLoading(false);
         }
+    } else {
+      setLoading(false);
     }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
