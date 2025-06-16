@@ -7,6 +7,7 @@ import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
 import EditProfilePage from "./pages/EditProfilePage";
+import AdminPromotionForm from "./pages/AdminPromotionForm";
 
 // habit pages
 import HabitListPage from "./pages/HabitListPage";
@@ -29,6 +30,7 @@ function App() {
         <Route path="/register" element={<PublicOnlyRoute><RegisterPage /></PublicOnlyRoute>} />
         <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
         <Route path="/edit" element={<PrivateRoute><EditProfilePage /></PrivateRoute>} />
+        <Route path="/promote" element={<PrivateRoute><AdminPromotionForm /></PrivateRoute>} />
 
         {/* habit routes */}
         <Route path="/habits" element={<PrivateRoute><HabitListPage /></PrivateRoute>} />

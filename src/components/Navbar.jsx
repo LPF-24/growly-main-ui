@@ -53,6 +53,11 @@ function Navbar() {
                 <li><Link to="/habits/create">Create Habit</Link></li>
                 {user && (
                     <>
+                        {user.role === "ROLE_USER" && (
+                            <li>
+                                <Link to="/promote">Become Admin</Link>
+                            </li>
+                        )}
                         <li style={{ marginLeft: "auto", fontStyle: "italic"}}>
                             Logged as {user.username}
                         </li>

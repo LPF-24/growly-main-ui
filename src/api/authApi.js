@@ -152,6 +152,30 @@ export async function handleApiError(err, fallbackMessage, setError = null) {
     }
 }
 
+export async function promoteToAdmin(code) {
+  const accessToken = localStorage.getItem("accessToken");
+
+  const response = await fetch(`${API_BASE}/auth/admin/promote`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`
+    },
+    credentials: "include",
+    body: JSON.stringify({ code }),
+  });
+
+  if (!response.ok) {
+    throwApiError("Promotion failed", response);
+  }
+
+  //Удаляем токены после повышения как в logout
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("username");
+
+  return await response.json();
+}
+
 function throwApiError(message, response) {
     const err = new Error(message);
     err.response = response;
