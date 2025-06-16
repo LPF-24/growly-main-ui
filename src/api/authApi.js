@@ -90,7 +90,7 @@ export async function logout() {
 export async function updateProfile({ username, password, email }) {
     const accessToken = localStorage.getItem("accessToken");
 
-    const response = await fetch(`${API_BASE}/auth`, {
+    const response = await fetch(`${API_BASE}/auth/update`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
