@@ -176,6 +176,42 @@ export async function promoteToAdmin(code) {
   return await response.json();
 }
 
+export async function getAllUsers() {
+  const accessToken = localStorage.getItem("accessToken");
+
+  const response = await fetch(`${API_BASE}/auth/admin/all-users`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throwApiError("Failed to fetch users", response);
+  }
+
+  return await response.json();
+}
+
+export async function getUserStatistics() {
+  const accessToken = localStorage.getItem("accessToken");
+
+  const response = await fetch(`${API_BASE}/auth/admin/stats`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throwApiError("Failed to fetch user statistics", response);
+  }
+
+  return await response.json();
+}
+
 function throwApiError(message, response) {
     const err = new Error(message);
     err.response = response;
