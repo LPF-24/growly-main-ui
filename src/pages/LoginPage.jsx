@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { handleApiError, login as loginApi } from "../api/authApi";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import "../styles/LoginPage.css"
 
 function LoginPage() {
     const [username, setUsername] = useState("");
@@ -27,22 +28,37 @@ function LoginPage() {
     };
 
     return (
-        <form onSubmit={handleLogin}>
-            <h2>Login</h2>
-            <input value={username} 
-                onChange={(e) => setUsername(e.target.value)} 
-                placeholder="Username" 
-            />
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-            <button type="submit">Login</button>
-            {error && <div style={{color: "red"}}>{error}</div>}
-            <br />
-            <span>Don't have an account yet?</span>
-            <br />
-            <button onClick={() => navigate("/register")} style={{ margin: "10px" }}>
-                Register
-            </button>
-        </form>
+        <div className="login-page-wrapper">
+            <form className="login-container" onSubmit={handleLogin}>
+                <h2 className="login-title">Login</h2>
+                <input 
+                    className="login-input"
+                    value={username} 
+                    onChange={(e) => setUsername(e.target.value)} 
+                    placeholder="Username" 
+                />
+                <input 
+                    className="login-input"
+                    type="password" 
+                    value={password} 
+                    onChange={(e) => setPassword(e.target.value)} 
+                    placeholder="Password" 
+                />
+                <button className="login-button" type="submit">Login</button>
+                {error && <div style={{color: "red"}}>{error}</div>}
+
+                <div className="register-link">
+                    <p>Don't have an account yet?</p>
+                    <button 
+                        type="button" 
+                        className="register-button" 
+                        onClick={() => navigate("/register")}
+                    >
+                        Register
+                    </button>
+                </div>
+            </form>
+        </div>
     );
 }
 
