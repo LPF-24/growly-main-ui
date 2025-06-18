@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import habitApi from "../api/habitApi";
 import { useAuth } from "../context/AuthContext";
+import "../styles/AuthPages.css";
 
 export default function CreateHabitPage() {
     const [name, setName] = useState("");
@@ -14,13 +15,7 @@ export default function CreateHabitPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await habitApi.createHabit({
-                name,
-                description,
-                active,
-            },
-            token,
-           );
+            await habitApi.createHabit({ name, description, active }, token);
             navigate("/habits");
         } catch (error) {
             console.error("Ошибка при создании привычки:", error);
@@ -28,40 +23,40 @@ export default function CreateHabitPage() {
     };
 
     return (
-        <div>
-            <h1>Create New Habit</h1>
-            <form onSubmit={handleSubmit}>
+        <div className="login-page-wrapper">
+            <form className="login-container" onSubmit={handleSubmit}>
+                <h2 className="login-title">Create New Habit</h2>
                 <input
+                    className="login-input"
                     type="text"
                     placeholder="Habit name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
                 />
-                <br />
                 <textarea
+                    className="login-input"
                     placeholder="Habit description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 />
-                <br />
                 <label>
-                    Active:
                     <input
                         type="checkbox"
                         checked={active}
                         onChange={(e) => setActive(e.target.checked)}
-                    />
+                    />{" "}
+                    Active
                 </label>
-                <br />
-                <button type="submit">Create</button>
+                <button type="submit" className="login-button">Create</button>
+                <button
+                    type="button"
+                    className="register-button"
+                    onClick={() => navigate("/habits")}
+                >
+                    ← Return to your habits
+                </button>
             </form>
-            <button
-                type="button"
-                onClick={() => navigate("/habits")}
-            >
-                ← Return to your habits
-            </button>
         </div>
     );
 }

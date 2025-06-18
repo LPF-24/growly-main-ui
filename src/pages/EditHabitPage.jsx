@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import habitApi from "../api/habitApi";
 import { useAuth } from "../context/AuthContext";
+import "../styles/AuthPages.css";
 
 export default function EditHabitPage() {
     const { id } = useParams();
@@ -16,27 +17,18 @@ export default function EditHabitPage() {
 
     useEffect(() => {
         if (loading || !token) return;
-
-        async function fetchHabit() {
-            try {
-                const data = await habitApi.getHabit(id, token);
-                setHabit({
-                    name: data.name,
-                    description: data.description,
-                    active: data.active,
-                });
-            } catch (error) {
-                console.error("Error loading habit:", error);
-            }
-        }
-        
-        fetchHabit();
+        habitApi.getHabit(id, token)
+            .then((data) => setHabit({
+                name: data.name,
+                description: data.description,
+                active: data.active,
+            }))
+            .catch((err) => console.error("Error loading habit:", err));
     }, [id, token, loading]);
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         try {
-            // Отправляем только нужные поля
             await habitApi.updateHabit(id, {
                 name: habit.name,
                 description: habit.description,
@@ -49,40 +41,40 @@ export default function EditHabitPage() {
     };
 
     return (
-        <div>
-            <h1>Edit Habit</h1>
-            <form onSubmit={handleSubmit}>
+        <div className="login-page-wrapper">
+            <form className="login-container" onSubmit={handleSubmit}>
+                <h2 className="login-title">Edit Habit</h2>
                 <input
+                    className="login-input"
                     type="text"
                     value={habit.name}
                     onChange={(e) => setHabit({ ...habit, name: e.target.value })}
                     placeholder="Name of the habit"
                     required
                 />
-                <br />
                 <textarea
+                    className="login-input"
                     value={habit.description}
                     onChange={(e) => setHabit({ ...habit, description: e.target.value })}
                     placeholder="Description"
                 />
-                <br />
                 <label>
-                    Active:
                     <input
                         type="checkbox"
                         checked={habit.active}
                         onChange={(e) => setHabit({ ...habit, active: e.target.checked })}
-                    />
+                    />{" "}
+                    Active
                 </label>
-                <br />
-                <button type="submit">Save</button>
+                <button type="submit" className="login-button">Save</button>
+                <button
+                    type="button"
+                    className="register-button"
+                    onClick={() => navigate("/habits")}
+                >
+                    ← Return to your habits
+                </button>
             </form>
-            <button
-                type="button"
-                onClick={() => navigate("/habits")}
-            >
-                ← Return to your habits
-            </button>
         </div>
     );
 }
