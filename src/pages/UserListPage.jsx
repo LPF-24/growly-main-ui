@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { getAllUsers } from "../api/authApi";
+import { useNavigate } from "react-router-dom";
 
 function UserListPage() {
   const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAllUsers()
@@ -18,6 +20,12 @@ function UserListPage() {
           <li key={user.id}>{user.username} — {user.email} — Role: {user.role}</li>
         ))}
       </ul>
+      <button
+        type="button"
+        onClick={() => navigate("/admin")}
+      >
+        ← Return to admin panel
+      </button>
     </div>
   );
 }

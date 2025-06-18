@@ -53,6 +53,10 @@ function Navbar() {
                     <li><Link className="navbar-link" to="/promote">Become Admin</Link></li>
                 )}
 
+                {user?.role === "ROLE_ADMIN" && (
+                    <li><Link className="navbar-link" to="/admin">Admin panel</Link></li>
+                )}
+
                 {user && (
                     <>
                         <li className="nav-username">Logged as {user.username}</li>
