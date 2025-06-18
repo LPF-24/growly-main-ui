@@ -30,7 +30,7 @@ export default function HabitCard() {
 
     const handleDelete = async () => {
         try {
-            await habitApi.deleteHabit(id, token); // ⬅️ обязательно передать токен
+            await habitApi.deleteHabit(id, token); 
             navigate("/habits");
         } catch (error) {
             console.error("Error deleting habit:", error);
@@ -46,9 +46,16 @@ export default function HabitCard() {
             <h1>{habit.name}</h1>
             <p>{habit.description}</p>
             <p>Active: {habit.active ? "Yes" : "No"}</p>
+            <button onClick={handleEdit}>Edit the habit</button>
+            <br />
             <button onClick={handleDelete}>Remove the habit</button>
             <br />
-            <button onClick={handleEdit}>Edit the habit</button>
+            <button
+                type="button"
+                onClick={() => navigate("/habits")}
+            >
+                ← Return to your habits
+            </button>
         </div>
     );
 }

@@ -56,6 +56,12 @@ export default function CreateHabitPage() {
                 <br />
                 <button type="submit">Create</button>
             </form>
+            <button
+                type="button"
+                onClick={() => navigate("/habits")}
+            >
+                ← Return to your habits
+            </button>
         </div>
     );
 }

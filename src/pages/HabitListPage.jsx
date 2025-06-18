@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import habitApi from "../api/habitApi";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const HabitListPage = () => {
     const [habits, setHabits] = useState([]);
     const { user, token, loading } = useAuth();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchHabits = async () => {
@@ -31,6 +33,12 @@ const HabitListPage = () => {
                     </li>
                 ))}
             </ul>
+            <button
+                type="button"
+                onClick={() => navigate("/profile")}
+            >
+                ← Return to your personal account
+            </button>
         </div>
     );
 };

@@ -77,6 +77,12 @@ export default function EditHabitPage() {
                 <br />
                 <button type="submit">Save</button>
             </form>
+            <button
+                type="button"
+                onClick={() => navigate("/habits")}
+            >
+                ← Return to your habits
+            </button>
         </div>
     );
 }
