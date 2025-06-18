@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { logout as serverLogout, deleteProfile, handleApiError } from "../api/authApi";
 import { escape } from "he";
-import "../styles/ProfilePage.css";
+import "../styles/MainPages.css";
 import profileImage from "../assets/profile-side-image.png";
 
 function ProfilePage() {

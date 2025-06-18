@@ -126,3 +126,30 @@
   height: auto;
   border-radius: 12px;
 }
+
+.habit-list {
+  padding-left: 1rem;
+  margin: 1rem 0;
+}
+
+.habit-item {
+  margin-bottom: 1.2rem;
+}
+
+.habit-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.habit-title:hover {
+  text-decoration: underline;
+}
+
+.habit-description {
+  font-size: 1.05rem;
+  color: #4b5563;
+  margin-left: 0.5rem;
+  margin-top: 0.25rem;
+}
