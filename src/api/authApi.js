@@ -217,3 +217,19 @@ function throwApiError(message, response) {
     err.response = response;
     throw err;
 }
+
+export async function deleteUserByAdmin(userId) {
+  const accessToken = localStorage.getItem("accessToken");
+
+  const response = await fetch(`${API_BASE}/auth/admin/delete/${userId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throwApiError("Failed to delete user", response);
+  }
+}
