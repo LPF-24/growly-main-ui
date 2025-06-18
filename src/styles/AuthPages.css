@@ -70,3 +70,30 @@
   background-color: #f9fafb;
   padding: 2rem;
 }
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+.user-table th,
+.user-table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.user-table th {
+  background-color: #f3f4f6;
+  font-weight: bold;
+}
+
+.user-table tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+.user-table tr:hover {
+  background-color: #f3f4f6;
+}
