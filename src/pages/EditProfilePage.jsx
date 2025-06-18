@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getProfile, handleApiError, updateProfile, logout as serverLogout } from "../api/authApi";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import "../styles/AuthPages.css";
 
 function EditProfilePage() {
     const [username, setUsername] = useState("");
@@ -9,7 +10,7 @@ function EditProfilePage() {
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
-    const { logout } = useAuth(); // контекстный logout
+    const { logout } = useAuth();
 
     useEffect(() => {
         getProfile()
@@ -28,9 +29,9 @@ function EditProfilePage() {
         try {
             await updateProfile({ username, password, email });
 
-            await serverLogout();         // удалить refreshToken с сервера
-            logout();                     // очистить контекст
-            localStorage.removeItem("accessToken"); // на всякий случай
+            await serverLogout();
+            logout();
+            localStorage.removeItem("accessToken");
             navigate("/login");
         } catch (err) {
             await handleApiError(err, "Update failed", setError);
@@ -38,41 +39,42 @@ function EditProfilePage() {
     };
 
     return (
-        <form onSubmit={handleUpdate}>
-            <h2>Edit Profile</h2>
-            <input
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Username"
-                required
-            />
-            <br />
-            <input
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="New Password (optional)"
-                type="password"
-            />
-            <br />
-            <input
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-                type="email"
-                required
-            />
-            <br />
-            <button type="submit">Save changes</button>
-            {error && <div style={{ color: "red" }}>{error}</div>}
-            <br />
-            <button
-                type="button"
-                onClick={() => navigate("/profile")}
-                style={{ margin: "10px" }}
-            >
-                Return to your personal account
-            </button>
-        </form>
+        <div className="login-page-wrapper">
+            <form onSubmit={handleUpdate} className="login-container">
+                <h2 className="login-title">Edit Profile</h2>
+                <input
+                    className="login-input"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Username"
+                    required
+                />
+                <input
+                    className="login-input"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="New Password (optional)"
+                    type="password"
+                />
+                <input
+                    className="login-input"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email"
+                    type="email"
+                    required
+                />
+                <button type="submit" className="login-button">Save changes</button>
+                {error && <div style={{ color: "red" }}>{error}</div>}
+                <button
+                    type="button"
+                    className="register-button"
+                    onClick={() => navigate("/profile")}
+                >
+                    ← Return to your personal account
+                </button>
+            </form>
+        </div>
     );
 }
 
