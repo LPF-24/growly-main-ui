@@ -1,0 +1,128 @@
+.profile-page {
+  position: relative;
+  min-height: 100vh;
+  background: url("/assets/bg-habit.jpg") no-repeat center center / cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0,0,0,0.4);
+  z-index: 1;
+}
+
+.profile-card {
+  position: relative;
+  z-index: 2;
+  background-color: #ffffffee;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+}
+
+.profile-card h2 {
+  font-size: 2rem;
+  font-weight: 500;
+  color: #2563eb; 
+  margin-bottom: 1.5rem;
+}
+
+.profile-card p {
+  margin: 0.5rem 0;
+}
+
+.profile-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.profile-btn {
+  padding: 0.7rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.profile-btn.logout {
+  background-color: #f87171;
+  color: white;
+}
+
+.profile-btn.logout:hover {
+  background-color: #dc2626;
+}
+
+.profile-btn.update {
+  background-color: #60a5fa;
+  color: white;
+}
+
+.profile-btn.update:hover {
+  background-color: #2563eb;
+}
+
+.profile-btn.delete {
+  background-color: #9ca3af;
+  color: white;
+}
+
+.profile-btn.delete:hover {
+  background-color: #6b7280;
+}
+
+.profile-card strong {
+  font-size: 1.4rem;
+  color: #2564ebe2; 
+}
+
+.profile-card p {
+  font-size: 1.4rem;
+  color: #2564ebe2;
+}
+
+.profile-content-wrapper {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  max-width: 1100px;
+  background-color: #ffffffee;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  padding: 2rem;
+  gap: 2rem;
+}
+
+.profile-card {
+  width: 60%;
+  text-align: left;
+}
+
+.profile-image-block {
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-image-block img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
