@@ -37,7 +37,7 @@ habitApi.createHabit = (habitData, token) =>
 
 // Обновить привычку
 habitApi.updateHabit = (id, habitData, token) =>
-  habitApi.patch(`update/{id}`, habitData, {
+  habitApi.patch(`update/${id}`, habitData, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -46,7 +46,7 @@ habitApi.updateHabit = (id, habitData, token) =>
 
 // Удалить привычку
 habitApi.deleteHabit = (id, token) =>
-  habitApi.delete(`delete/{id}`, {
+  habitApi.delete(`delete/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
