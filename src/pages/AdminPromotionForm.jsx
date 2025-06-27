@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { promoteToAdmin } from "../api/authApi";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import "../styles/AuthPages.css";
 
 const AdminPromotionForm = () => {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { logout } = useAuth(); // получаем функцию logout
+  const { logout } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,7 +17,7 @@ const AdminPromotionForm = () => {
     try {
       await promoteToAdmin(code);
       alert("Your account has been promoted to admin. Please log in again.");
-      logout(); // это очистит контекст и state
+      logout();
       navigate("/login");
     } catch (err) {
       console.error(err);
@@ -25,20 +26,37 @@ const AdminPromotionForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Become an Admin</h2>
-      <label>
-        Admin Code:
+    <div className="login-page-wrapper">
+      <form className="login-container" onSubmit={handleSubmit}>
+        <h2 className="login-title">Become an Admin</h2>
+
         <input
+          className="login-input"
           type="text"
+          placeholder="Enter admin code"
           value={code}
           onChange={(e) => setCode(e.target.value)}
           required
         />
-      </label>
-      <button type="submit">Submit</button>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-    </form>
+
+        <button type="submit" className="login-button">
+          Submit
+        </button>
+
+        {error && <div style={{ color: "red", textAlign: "center" }}>{error}</div>}
+
+        <div className="register-link">
+          <p>Changed your mind?</p>
+          <button
+            type="button"
+            className="register-button"
+            onClick={() => navigate("/profile")}
+          >
+            Back to Profile
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

@@ -10,7 +10,7 @@ const habitApi = axios.create({
 
 // Получить все привычки конкретного пользователя
 habitApi.getAllHabits = (token) =>
-  habitApi.get(`/`, {
+  habitApi.get(`/all-habits`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -28,7 +28,7 @@ habitApi.getHabit = (id, token) =>
 
 // Создать привычку
 habitApi.createHabit = (habitData, token) =>
-  habitApi.post("/", habitData, {
+  habitApi.post(`/create-habit`, habitData, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -37,7 +37,7 @@ habitApi.createHabit = (habitData, token) =>
 
 // Обновить привычку
 habitApi.updateHabit = (id, habitData, token) =>
-  habitApi.patch(`/${id}`, habitData, {
+  habitApi.patch(`update/{id}`, habitData, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -46,7 +46,7 @@ habitApi.updateHabit = (id, habitData, token) =>
 
 // Удалить привычку
 habitApi.deleteHabit = (id, token) =>
-  habitApi.delete(`/${id}`, {
+  habitApi.delete(`delete/{id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
